@@ -41,6 +41,8 @@ const testimonials: Testimonial[] = [
 
 const Testimonials = () => {
   const { ref: sectionRef, inView } = useReveal();
+  // Add fade-on-scroll effect for testimonial images
+  const { ref: imageRef, opacity } = useReveal(true);
   const trackRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const isMobile = useIsMobile();
@@ -112,7 +114,11 @@ const Testimonials = () => {
                     "{testimonial.quote}"
                   </blockquote>
                   <div className="flex items-center">
-                    <div className="w-12 h-12 bg-gray-300 rounded-full overflow-hidden mr-4">
+                    <div 
+                      ref={index === 0 ? imageRef : undefined} 
+                      className="w-12 h-12 bg-gray-300 rounded-full overflow-hidden mr-4"
+                      style={{ opacity }} // Apply scroll-based opacity directly
+                    >
                       <img 
                         src={testimonial.image} 
                         alt={testimonial.name} 

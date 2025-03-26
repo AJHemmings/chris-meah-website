@@ -51,6 +51,8 @@ const topics = [
 
 const Speaking = () => {
   const { ref: sectionRef, inView } = useReveal();
+  // Add fade-on-scroll effect for the image
+  const { ref: imageRef, opacity } = useReveal(true);
 
   const eventVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -116,10 +118,12 @@ const Speaking = () => {
             </Button>
           </motion.div>
           <motion.div 
+            ref={imageRef}
             className="order-1 lg:order-2"
             initial={{ opacity: 0, x: 30 }}
-            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
+            animate={inView ? { opacity: opacity, x: 0 } : { opacity: 0, x: 30 }}
             transition={{ duration: 0.6, delay: 0.3 }}
+            style={{ opacity }} // Apply scroll-based opacity directly
           >
             <div className="relative">
               <img 

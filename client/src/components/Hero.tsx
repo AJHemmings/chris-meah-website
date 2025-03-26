@@ -1,32 +1,13 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
-import ParticleCanvas from "./ParticleCanvas";
+import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useReveal } from "@/hooks/useReveal";
 
 const Hero = () => {
-  // Reference to the section for scroll-based effects
-  const sectionRef = useRef(null);
+  // Use the consistent reveal hook for the section
+  const { ref: sectionRef, inView } = useReveal();
   
-  // State to track scroll position
-  const [scrollY, setScrollY] = useState(0);
-  
-  // Scroll progress for image fade effect
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"]
-  });
-  
-  // Transform scroll progress to opacity value (1 at top, 0 as user scrolls down)
-  const imageOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  
-  // Handle scroll event to update state
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Use the same fade-on-scroll effect as other components for consistency
+  const { ref: imageRef, opacity } = useReveal(true);
 
   return (
     // The hero section now has a fixed background that continues throughout the site
@@ -67,11 +48,12 @@ const Hero = () => {
           
           {/* Image section with scroll-based fade effect */}
           <motion.div 
+            ref={imageRef}
             className="hidden md:block relative"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={inView ? { opacity: opacity } : { opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            style={{ opacity: imageOpacity }} // Fade out as user scrolls
+            // Apply scroll-based opacity directly (already included in animate property)
           >
             {/* Main image with animation removed */}
             <div className="rounded-2xl shadow-2xl max-w-md mx-auto overflow-hidden">
@@ -79,7 +61,6 @@ const Hero = () => {
                 src="https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
                 alt="AI visualization"
                 className="w-full h-full object-cover"
-                // Animation removed as requested
               />
             </div>
             
