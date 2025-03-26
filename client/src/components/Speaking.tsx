@@ -65,7 +65,7 @@ const Speaking = () => {
   };
 
   return (
-    <section ref={sectionRef} id="speaking" className="py-20 bg-gray-50">
+    <section ref={sectionRef} id="speaking" className="py-20 relative z-10 text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           className="text-center mb-16"
@@ -73,9 +73,9 @@ const Speaking = () => {
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-['Space_Grotesk'] font-bold text-3xl sm:text-4xl text-primary">Public Speaking</h2>
+          <h2 className="font-['Space_Grotesk'] font-bold text-3xl sm:text-4xl text-white">Public Speaking</h2>
           <div className="w-20 h-1 bg-accent mx-auto mt-4 mb-6"></div>
-          <p className="max-w-2xl mx-auto text-lg text-gray-600">
+          <p className="max-w-2xl mx-auto text-lg text-gray-200">
             Engaging talks and workshops that demystify AI and inspire action
           </p>
         </motion.div>

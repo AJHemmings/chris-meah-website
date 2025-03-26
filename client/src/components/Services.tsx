@@ -67,7 +67,7 @@ const Services = () => {
   };
 
   return (
-    <section ref={sectionRef} id="services" className="py-20 bg-white">
+    <section ref={sectionRef} id="services" className="py-20 relative z-10 text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           className="text-center mb-16"
@@ -75,9 +75,9 @@ const Services = () => {
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-['Space_Grotesk'] font-bold text-3xl sm:text-4xl text-primary">My Services</h2>
+          <h2 className="font-['Space_Grotesk'] font-bold text-3xl sm:text-4xl text-white">My Services</h2>
           <div className="w-20 h-1 bg-accent mx-auto mt-4 mb-6"></div>
-          <p className="max-w-2xl mx-auto text-lg text-gray-600">
+          <p className="max-w-2xl mx-auto text-lg text-gray-200">
             Practical, tailored solutions to help you leverage AI effectively
           </p>
         </motion.div>
