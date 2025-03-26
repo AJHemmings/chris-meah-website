@@ -21,32 +21,32 @@ const ParticleCanvas = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     
-    // Color palette for particles
+    // AI-inspired color palette for particles
     const colors = [
-      '#4F46E5', // Indigo
-      '#8B5CF6', // Purple
-      '#EC4899', // Pink
-      '#3B82F6', // Blue
-      '#06B6D4'  // Cyan
+      '#5D5FEF', // Electric Blue
+      '#00FFCC', // Neon Cyan
+      '#9D4EDD', // Bright Purple
+      '#3A86FF', // Vivid Blue
+      '#FF0080'  // Bright Pink
     ];
     
     // Set up canvas dimensions
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     
-    // Create particles
+    // Create particles - increased count for more AI-like neural network appearance
     const particles: Particle[] = [];
-    const particleCount = 100;
+    const particleCount = 150; // Increased count
     
     // Initialize particles
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        radius: Math.random() * 2.5 + 0.5,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        alpha: Math.random() * 0.6 + 0.1,
+        radius: Math.random() * 3 + 0.5, // Slightly larger particles
+        vx: (Math.random() - 0.5) * 0.7, // More dynamic movement
+        vy: (Math.random() - 0.5) * 0.7, // More dynamic movement
+        alpha: Math.random() * 0.7 + 0.2, // Higher base opacity
         color: colors[Math.floor(Math.random() * colors.length)]
       });
     }
@@ -59,10 +59,19 @@ const ParticleCanvas = () => {
     
     window.addEventListener("resize", handleResize);
     
-    // Draw connections between particles
+    // Draw connections between particles - AI neural network style
     const drawConnections = () => {
+      // Connect more particles with longer range for neural network effect
+      const connectionDistance = 180; // Increased connection distance
+      
       for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
+        // Limit connections to closest particles for better performance
+        let connections = 0;
+        const maxConnections = 3 + Math.floor(Math.random() * 3); // Variable connections
+        
+        for (let j = 0; j < particles.length; j++) {
+          if (i === j) continue; // Skip self
+          
           const p1 = particles[i];
           const p2 = particles[j];
           
@@ -70,13 +79,32 @@ const ParticleCanvas = () => {
           const dy = p1.y - p2.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
-          if (distance < 150) {
+          if (distance < connectionDistance && connections < maxConnections) {
+            connections++;
+            
+            // Create gradient line for more AI-like effect
+            const gradient = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
+            gradient.addColorStop(0, p1.color.replace(')', `, ${0.15 * (1 - distance / connectionDistance)})`).replace('rgb', 'rgba'));
+            gradient.addColorStop(1, p2.color.replace(')', `, ${0.15 * (1 - distance / connectionDistance)})`).replace('rgb', 'rgba'));
+            
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 * (1 - distance / 150)})`;
-            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 0.7;
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
+            
+            // Add pulse effect on random connections for data flow simulation
+            if (Math.random() > 0.99) {
+              const pulseSize = 2 + Math.random() * 3;
+              const midX = (p1.x + p2.x) / 2;
+              const midY = (p1.y + p2.y) / 2;
+              
+              ctx.beginPath();
+              ctx.arc(midX, midY, pulseSize, 0, Math.PI * 2);
+              ctx.fillStyle = p1.color.replace(')', `, 0.7)`).replace('rgb', 'rgba');
+              ctx.fill();
+            }
           }
         }
       }

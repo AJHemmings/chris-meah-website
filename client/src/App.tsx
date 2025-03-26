@@ -17,10 +17,10 @@ function Router() {
 // Main App component with continuous background
 function App() {
   return (
-    // The main app container with continuous background
-    <div className="relative bg-gradient-to-br from-black via-primary to-black min-h-screen">
+    // The main app container with AI-inspired gradient background
+    <div className="relative bg-gradient-to-br from-black via-[#1a1b4b] to-[#050518] min-h-screen">
       {/* Continuous particle background that spans the entire site */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-70">
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-80">
         <ParticleCanvas />
       </div>
       
