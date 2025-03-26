@@ -44,41 +44,20 @@ const Home = () => {
 
   return (
     // Main container with full height over the continuous background
-    <div className="font-['Roboto'] text-gray-800 relative">
-      {/* Header and hero are placed directly in the container to get transparent background */}
+    <div className="font-['Roboto'] text-white relative">
+      {/* Header and hero are placed directly in the container */}
       <Header />
       <Hero />
       
-      {/* Content sections */}
+      {/* Content sections with transparent backgrounds to allow particle effect to show through */}
       <div className="relative">
-        {/* Background layers for better readability while maintaining the continuous background effect */}
-        <div className="bg-white/80 backdrop-blur-sm">
-          <About />
-        </div>
-        
-        <div className="bg-black/40 backdrop-blur-sm text-white">
-          <Services />
-        </div>
-        
-        <div className="bg-white/80 backdrop-blur-sm">
-          <SchoolOfCode />
-        </div>
-        
-        <div className="bg-black/40 backdrop-blur-sm text-white">
-          <Speaking />
-        </div>
-        
-        <div className="bg-white/80 backdrop-blur-sm">
-          <Testimonials />
-        </div>
-        
-        <div className="bg-black/40 backdrop-blur-sm text-white">
-          <Contact />
-        </div>
-        
-        <div className="bg-black/80 text-white">
-          <Footer />
-        </div>
+        <About />
+        <Services />
+        <SchoolOfCode />
+        <Speaking />
+        <Testimonials />
+        <Contact />
+        <Footer />
       </div>
     </div>
   );

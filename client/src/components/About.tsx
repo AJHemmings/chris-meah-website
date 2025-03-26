@@ -3,7 +3,11 @@ import { useReveal } from "@/hooks/useReveal";
 import { Bot, GraduationCap, Mic } from "lucide-react";
 
 const About = () => {
+  // Regular section reveal
   const { ref: sectionRef, inView } = useReveal();
+  
+  // Image fade on scroll
+  const { ref: imageRef, opacity } = useReveal(true);
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -18,7 +22,7 @@ const About = () => {
   };
 
   return (
-    <section ref={sectionRef} id="about" className="py-20 relative z-10">
+    <section ref={sectionRef} id="about" className="py-20 relative z-10 text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           className="text-center mb-16"
@@ -26,9 +30,9 @@ const About = () => {
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-['Space_Grotesk'] font-bold text-3xl sm:text-4xl text-primary">About Me</h2>
+          <h2 className="font-['Space_Grotesk'] font-bold text-3xl sm:text-4xl text-white">About Me</h2>
           <div className="w-20 h-1 bg-accent mx-auto mt-4 mb-6"></div>
-          <p className="max-w-2xl mx-auto text-lg text-gray-600">
+          <p className="max-w-2xl mx-auto text-lg text-gray-200">
             From founding School of Code to helping organizations leverage AI effectively
           </p>
         </motion.div>
@@ -55,10 +59,12 @@ const About = () => {
             </div>
           </motion.div>
           <motion.div 
+            ref={imageRef}
             className="order-1 md:order-2 text-center"
             initial={{ opacity: 0, x: 20 }}
-            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+            animate={inView ? { opacity: opacity, x: 0 } : { opacity: 0, x: 20 }}
             transition={{ duration: 0.6, delay: 0.2 }}
+            style={{ opacity }} // Apply scroll-based opacity directly
           >
             <img 
               src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 

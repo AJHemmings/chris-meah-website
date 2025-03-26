@@ -52,8 +52,8 @@ const Hero = () => {
             
             {/* Subheading with different colors and fonts for each word */}
             <h2 className="font-['Inter'] text-2xl sm:text-3xl lg:text-4xl leading-tight">
-              I <span className="text-accent font-extrabold font-['Space_Grotesk']">build</span>, 
-              <span className="text-secondary font-extrabold font-['Montserrat']"> train</span>, and 
+              I <span className="text-green-400 font-extrabold font-['Space_Grotesk']">build</span>, 
+              <span className="text-amber-400 font-extrabold font-['Montserrat']"> train</span>, and 
               <span className="text-rose-400 font-extrabold italic"> speak</span> about <span className="text-cyan-300 font-['Space_Grotesk'] font-extrabold">AI</span>
             </h2>
             
