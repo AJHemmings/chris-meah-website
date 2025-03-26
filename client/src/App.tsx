@@ -18,9 +18,9 @@ function Router() {
 function App() {
   return (
     // The main app container with continuous background
-    <div className="relative bg-primary min-h-screen">
+    <div className="relative bg-gradient-to-br from-black via-primary to-black min-h-screen">
       {/* Continuous particle background that spans the entire site */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-70">
         <ParticleCanvas />
       </div>
       

@@ -50,11 +50,11 @@ const Hero = () => {
               Hi, I'm <span className="text-secondary bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent">Chris Meah</span>
             </h1>
             
-            {/* Subheading with enhanced styling */}
+            {/* Subheading with different colors and fonts for each word */}
             <h2 className="font-['Inter'] text-2xl sm:text-3xl lg:text-4xl leading-tight">
-              I <span className="text-accent font-bold">build</span>, 
-              <span className="text-secondary font-bold"> train</span>, and 
-              <span className="text-white font-bold bg-accent px-2 rounded-md"> speak</span> about AI
+              I <span className="text-accent font-extrabold font-['Space_Grotesk']">build</span>, 
+              <span className="text-secondary font-extrabold font-['Montserrat']"> train</span>, and 
+              <span className="text-rose-400 font-extrabold italic"> speak</span> about <span className="text-cyan-300 font-['Space_Grotesk'] font-extrabold">AI</span>
             </h2>
             
             {/* Description text */}

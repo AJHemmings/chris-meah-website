@@ -43,41 +43,40 @@ const Home = () => {
   }, []);
 
   return (
-    // Removed background colors since they're now handled by the App component
-    <div className="font-['Roboto'] text-gray-800">
-      {/* These components will now render over the continuous background */}
+    // Main container with full height over the continuous background
+    <div className="font-['Roboto'] text-gray-800 relative">
+      {/* Header and hero are placed directly in the container to get transparent background */}
       <Header />
       <Hero />
       
-      {/* Content sections with background semi-transparent overlays for readability */}
-      <div className="relative z-10">
-        {/* Each section now uses a semi-transparent background to maintain readability 
-            while letting the main background show through */}
-        <div className="bg-white/90">
+      {/* Content sections */}
+      <div className="relative">
+        {/* Background layers for better readability while maintaining the continuous background effect */}
+        <div className="bg-white/80 backdrop-blur-sm">
           <About />
         </div>
         
-        <div className="bg-primary/5">
+        <div className="bg-black/40 backdrop-blur-sm text-white">
           <Services />
         </div>
         
-        <div className="bg-white/90">
+        <div className="bg-white/80 backdrop-blur-sm">
           <SchoolOfCode />
         </div>
         
-        <div className="bg-primary/5">
+        <div className="bg-black/40 backdrop-blur-sm text-white">
           <Speaking />
         </div>
         
-        <div className="bg-white/90">
+        <div className="bg-white/80 backdrop-blur-sm">
           <Testimonials />
         </div>
         
-        <div className="bg-primary/5">
+        <div className="bg-black/40 backdrop-blur-sm text-white">
           <Contact />
         </div>
         
-        <div className="bg-primary/90 text-white">
+        <div className="bg-black/80 text-white">
           <Footer />
         </div>
       </div>
