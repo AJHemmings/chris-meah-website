@@ -12,6 +12,8 @@ const stats = [
 
 const SchoolOfCode = () => {
   const { ref: sectionRef, inView } = useReveal();
+  // Add fade-on-scroll effect for the image
+  const { ref: imageRef, opacity } = useReveal(true);
 
   return (
     <section ref={sectionRef} id="school-of-code" className="py-20 bg-primary text-white">
@@ -31,9 +33,11 @@ const SchoolOfCode = () => {
         
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <motion.div
+            ref={imageRef}
             initial={{ opacity: 0, x: -30 }}
-            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+            animate={inView ? { opacity: opacity, x: 0 } : { opacity: 0, x: -30 }}
             transition={{ duration: 0.6, delay: 0.2 }}
+            style={{ opacity }} // Apply scroll-based opacity directly
           >
             <img 
               src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
