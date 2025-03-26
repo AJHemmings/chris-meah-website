@@ -44,8 +44,8 @@ const ParticleCanvas = () => {
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         radius: Math.random() * 3 + 0.5, // Slightly larger particles
-        vx: (Math.random() - 0.5) * 0.7, // More dynamic movement
-        vy: (Math.random() - 0.5) * 0.7, // More dynamic movement
+        vx: (Math.random() - 0.5) * 0.3, // Slower movement
+        vy: (Math.random() - 0.5) * 0.3, // Slower movement
         alpha: Math.random() * 0.7 + 0.2, // Higher base opacity
         color: colors[Math.floor(Math.random() * colors.length)]
       });
@@ -94,15 +94,15 @@ const ParticleCanvas = () => {
             ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
             
-            // Add pulse effect on random connections for data flow simulation
-            if (Math.random() > 0.99) {
-              const pulseSize = 2 + Math.random() * 3;
+            // Add pulse effect on random connections for data flow simulation (reduced frequency)
+            if (Math.random() > 0.995) { // Less frequent pulses
+              const pulseSize = 2 + Math.random() * 2.5; // Slightly smaller pulses
               const midX = (p1.x + p2.x) / 2;
               const midY = (p1.y + p2.y) / 2;
               
               ctx.beginPath();
               ctx.arc(midX, midY, pulseSize, 0, Math.PI * 2);
-              ctx.fillStyle = p1.color.replace(')', `, 0.7)`).replace('rgb', 'rgba');
+              ctx.fillStyle = p1.color.replace(')', `, 0.6)`).replace('rgb', 'rgba'); // Slightly more subtle
               ctx.fill();
             }
           }

@@ -38,4 +38,65 @@
     box-shadow: 0 0 30px rgba(93, 95, 239, 0.4), 0 0 50px rgba(0, 255, 204, 0.2);
     @apply border-white/20;
   }
+  
+  /* Light trace animation for text */
+  @keyframes lightTrace {
+    0% {
+      background-position: 0% 50%;
+      text-shadow: 0 0 5px rgba(93, 95, 239, 0.3), 0 0 10px rgba(93, 95, 239, 0.2);
+    }
+    50% {
+      background-position: 100% 50%;
+      text-shadow: 0 0 15px rgba(93, 95, 239, 0.7), 0 0 20px rgba(93, 95, 239, 0.5), 0 0 25px rgba(0, 255, 204, 0.3);
+    }
+    100% {
+      background-position: 0% 50%;
+      text-shadow: 0 0 5px rgba(93, 95, 239, 0.3), 0 0 10px rgba(93, 95, 239, 0.2);
+    }
+  }
+  
+  /* Outline trace animation */
+  @keyframes outlineTrace {
+    0% {
+      -webkit-box-shadow: 0 0 0 0 rgba(93, 95, 239, 0), 0 0 0 0 rgba(0, 255, 204, 0);
+      box-shadow: 0 0 0 0 rgba(93, 95, 239, 0), 0 0 0 0 rgba(0, 255, 204, 0);
+    }
+    25% {
+      -webkit-box-shadow: 0 0 0 2px rgba(93, 95, 239, 0.5), 0 0 0 0 rgba(0, 255, 204, 0);
+      box-shadow: 0 0 0 2px rgba(93, 95, 239, 0.5), 0 0 0 0 rgba(0, 255, 204, 0);
+    }
+    50% {
+      -webkit-box-shadow: 0 0 0 2px rgba(93, 95, 239, 0.5), 0 0 0 6px rgba(0, 255, 204, 0.3);
+      box-shadow: 0 0 0 2px rgba(93, 95, 239, 0.5), 0 0 0 6px rgba(0, 255, 204, 0.3);
+    }
+    75% {
+      -webkit-box-shadow: 0 0 0 0 rgba(93, 95, 239, 0), 0 0 0 6px rgba(0, 255, 204, 0.3);
+      box-shadow: 0 0 0 0 rgba(93, 95, 239, 0), 0 0 0 6px rgba(0, 255, 204, 0.3);
+    }
+    100% {
+      -webkit-box-shadow: 0 0 0 0 rgba(93, 95, 239, 0), 0 0 0 0 rgba(0, 255, 204, 0);
+      box-shadow: 0 0 0 0 rgba(93, 95, 239, 0), 0 0 0 0 rgba(0, 255, 204, 0);
+    }
+  }
+  
+  .light-trace {
+    background: linear-gradient(90deg, #5D5FEF, #3A86FF, #00FFCC, #5D5FEF);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: lightTrace 6s ease infinite;
+    @apply text-transparent font-bold relative px-1;
+  }
+  
+  .light-trace::after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 8px;
+    z-index: -1;
+    animation: outlineTrace 6s ease infinite;
+  }
 }
