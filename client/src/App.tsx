@@ -2,7 +2,9 @@ import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/not-found";
+import ParticleCanvas from "@/components/ParticleCanvas";
 
+// Router component for handling routes
 function Router() {
   return (
     <Switch>
@@ -12,12 +14,22 @@ function Router() {
   );
 }
 
+// Main App component with continuous background
 function App() {
   return (
-    <>
-      <Router />
-      <Toaster />
-    </>
+    // The main app container with continuous background
+    <div className="relative bg-primary min-h-screen">
+      {/* Continuous particle background that spans the entire site */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
+        <ParticleCanvas />
+      </div>
+      
+      {/* Main content */}
+      <div className="relative z-10">
+        <Router />
+        <Toaster />
+      </div>
+    </div>
   );
 }
 
