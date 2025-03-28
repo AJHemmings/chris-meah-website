@@ -26,9 +26,9 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* Enhanced heading with AI-inspired text effect and light trace animation */}
+            {/* Enhanced heading with AI-inspired text effect - no animation */}
             <h1 className="font-['Space_Grotesk'] font-bold text-4xl sm:text-5xl lg:text-6xl leading-tight">
-              Hi, I'm <span className="light-trace relative">Chris Meah</span>
+              Hi, I'm <span className="ai-highlight">Chris Meah</span>
             </h1>
             
             {/* Subheading with AI-inspired colors for each word */}

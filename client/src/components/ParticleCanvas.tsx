@@ -65,42 +65,42 @@ const ParticleCanvas = () => {
     // CONNECTION SETTINGS
     // ===================
     // Maximum distance for particles to connect
-    const connectionDistance = 180;
+    const connectionDistance = 150; // Reduced distance for more stable connections
     
     // Line width for connections
-    const connectionLineWidth = 0.7;
+    const connectionLineWidth = 0.5; // Thinner lines for more subtle effect
     
     // Base opacity for connections - higher values make lines more visible
-    const connectionOpacity = 0.15;
+    const connectionOpacity = 0.12; // Reduced opacity for more subtle effect
     
     // Minimum connections per particle (prevents isolated particles)
-    const minConnections = 2;
+    const minConnections = 1; // Reduced minimum connections
     
     // Maximum connections per particle (prevents overcrowding)
-    const maxExtraConnections = 2; // Total connections = minConnections + random(0 to maxExtraConnections)
+    const maxExtraConnections = 1; // Total connections = minConnections + random(0 to maxExtraConnections)
     
     // CONNECTION STABILITY
     // ===================
     // Connection stability factor - higher values make connections more persistent
     // Set to 1.0 for completely stable connections (no flickering)
     // Set to 0.0 for completely random connections each frame
-    const connectionStability = 0.85; // 85% chance to maintain existing connections
+    const connectionStability = 0.98; // 98% chance to maintain existing connections - very stable
     
     // PULSE EFFECTS
     // =============
     // Probability of new pulse appearing (per frame, per eligible connection)
     // Lower values = fewer pulses
-    const pulseProbability = 0.002; // 0.2% chance per frame per connection
+    const pulseProbability = 0.001; // 0.1% chance per frame per connection (less frequent)
     
     // Pulse size range
-    const minPulseSize = 1.5;
-    const maxPulseSize = 3.5;
+    const minPulseSize = 1.0;
+    const maxPulseSize = 2.5; // Smaller pulse size for more subtle effect
     
     // Pulse opacity
-    const pulseOpacity = 0.6;
+    const pulseOpacity = 0.4; // Lower opacity for more subtle pulses
     
     // How long pulses last (in frames)
-    const pulseDuration = 60; // About 1 second at 60fps
+    const pulseDuration = 45; // Shorter duration for pulses
     
     // ============================================================
     // END OF CONFIGURATION SECTION
