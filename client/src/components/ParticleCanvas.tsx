@@ -9,6 +9,16 @@ interface Particle {
   vy: number;
   alpha: number;
   color: string;
+  // Store connection data to prevent flickering
+  connections: number[];
+  // Used to persist pulse effects
+  pulses: {
+    partnerId: number;
+    ttl: number;
+    size: number;
+    x: number;
+    y: number;
+  }[];
 }
 
 const ParticleCanvas = () => {
@@ -21,7 +31,13 @@ const ParticleCanvas = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     
-    // AI-inspired color palette for particles
+    // ============================================================
+    // CONFIGURATION SECTION - Edit these values to adjust animation
+    // ============================================================
+    
+    // PARTICLE APPEARANCE
+    // ===================
+    // AI-inspired color palette for particles - add or change colors here
     const colors = [
       '#5D5FEF', // Electric Blue
       '#00FFCC', // Neon Cyan
@@ -30,24 +46,85 @@ const ParticleCanvas = () => {
       '#FF0080'  // Bright Pink
     ];
     
+    // Number of particles to create - higher numbers create more connections but slower performance
+    const particleCount = 150; 
+    
+    // Min and max radius for particles (visual size)
+    const minParticleRadius = 0.5;
+    const maxParticleRadius = 3;
+    
+    // Base opacity range for particles
+    const minParticleOpacity = 0.2;
+    const maxParticleOpacity = 0.7;
+    
+    // PARTICLE MOVEMENT
+    // =================
+    // Velocity factor - lower values make particles move slower
+    const velocityFactor = 0.3; 
+    
+    // CONNECTION SETTINGS
+    // ===================
+    // Maximum distance for particles to connect
+    const connectionDistance = 180;
+    
+    // Line width for connections
+    const connectionLineWidth = 0.7;
+    
+    // Base opacity for connections - higher values make lines more visible
+    const connectionOpacity = 0.15;
+    
+    // Minimum connections per particle (prevents isolated particles)
+    const minConnections = 2;
+    
+    // Maximum connections per particle (prevents overcrowding)
+    const maxExtraConnections = 2; // Total connections = minConnections + random(0 to maxExtraConnections)
+    
+    // CONNECTION STABILITY
+    // ===================
+    // Connection stability factor - higher values make connections more persistent
+    // Set to 1.0 for completely stable connections (no flickering)
+    // Set to 0.0 for completely random connections each frame
+    const connectionStability = 0.85; // 85% chance to maintain existing connections
+    
+    // PULSE EFFECTS
+    // =============
+    // Probability of new pulse appearing (per frame, per eligible connection)
+    // Lower values = fewer pulses
+    const pulseProbability = 0.002; // 0.2% chance per frame per connection
+    
+    // Pulse size range
+    const minPulseSize = 1.5;
+    const maxPulseSize = 3.5;
+    
+    // Pulse opacity
+    const pulseOpacity = 0.6;
+    
+    // How long pulses last (in frames)
+    const pulseDuration = 60; // About 1 second at 60fps
+    
+    // ============================================================
+    // END OF CONFIGURATION SECTION
+    // ============================================================
+    
     // Set up canvas dimensions
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     
-    // Create particles - increased count for more AI-like neural network appearance
+    // Create particles array
     const particles: Particle[] = [];
-    const particleCount = 150; // Increased count
     
     // Initialize particles
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        radius: Math.random() * 3 + 0.5, // Slightly larger particles
-        vx: (Math.random() - 0.5) * 0.3, // Slower movement
-        vy: (Math.random() - 0.5) * 0.3, // Slower movement
-        alpha: Math.random() * 0.7 + 0.2, // Higher base opacity
-        color: colors[Math.floor(Math.random() * colors.length)]
+        radius: Math.random() * (maxParticleRadius - minParticleRadius) + minParticleRadius,
+        vx: (Math.random() - 0.5) * velocityFactor,
+        vy: (Math.random() - 0.5) * velocityFactor,
+        alpha: Math.random() * (maxParticleOpacity - minParticleOpacity) + minParticleOpacity,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        connections: [], // Store connected particles to prevent flickering
+        pulses: []      // Store active pulse effects
       });
     }
     
@@ -59,55 +136,124 @@ const ParticleCanvas = () => {
     
     window.addEventListener("resize", handleResize);
     
+    // Calculate distance between two particles
+    const getDistance = (p1: Particle, p2: Particle) => {
+      const dx = p1.x - p2.x;
+      const dy = p1.y - p2.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    };
+    
     // Draw connections between particles - AI neural network style
     const drawConnections = () => {
-      // Connect more particles with longer range for neural network effect
-      const connectionDistance = 180; // Increased connection distance
-      
-      for (let i = 0; i < particles.length; i++) {
-        // Limit connections to closest particles for better performance
-        let connections = 0;
-        const maxConnections = 3 + Math.floor(Math.random() * 3); // Variable connections
+      // First, update which particles should be connected (only partially each frame for stability)
+      particles.forEach((p1, i) => {
+        // Calculate distances to all other particles
+        const distances: {index: number, distance: number}[] = [];
         
         for (let j = 0; j < particles.length; j++) {
-          if (i === j) continue; // Skip self
-          
-          const p1 = particles[i];
-          const p2 = particles[j];
-          
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < connectionDistance && connections < maxConnections) {
-            connections++;
+          if (i !== j) {
+            const p2 = particles[j];
+            const distance = getDistance(p1, p2);
             
-            // Create gradient line for more AI-like effect
-            const gradient = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
-            gradient.addColorStop(0, p1.color.replace(')', `, ${0.15 * (1 - distance / connectionDistance)})`).replace('rgb', 'rgba'));
-            gradient.addColorStop(1, p2.color.replace(')', `, ${0.15 * (1 - distance / connectionDistance)})`).replace('rgb', 'rgba'));
-            
-            ctx.beginPath();
-            ctx.strokeStyle = gradient;
-            ctx.lineWidth = 0.7;
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-            
-            // Add pulse effect on random connections for data flow simulation (reduced frequency)
-            if (Math.random() > 0.995) { // Less frequent pulses
-              const pulseSize = 2 + Math.random() * 2.5; // Slightly smaller pulses
-              const midX = (p1.x + p2.x) / 2;
-              const midY = (p1.y + p2.y) / 2;
-              
-              ctx.beginPath();
-              ctx.arc(midX, midY, pulseSize, 0, Math.PI * 2);
-              ctx.fillStyle = p1.color.replace(')', `, 0.6)`).replace('rgb', 'rgba'); // Slightly more subtle
-              ctx.fill();
+            if (distance < connectionDistance) {
+              distances.push({index: j, distance});
             }
           }
         }
-      }
+        
+        // Sort by distance (closer particles first)
+        distances.sort((a, b) => a.distance - b.distance);
+        
+        // Determine how many connections this particle should have
+        const totalConnections = minConnections + Math.floor(Math.random() * (maxExtraConnections + 1));
+        
+        // Update connections list - maintain stability by keeping existing connections when possible
+        const newConnections: number[] = [];
+        
+        // First, try to keep existing connections if they're still within range
+        p1.connections.forEach(existingIdx => {
+          const stillExists = distances.some(d => d.index === existingIdx);
+          if (stillExists && Math.random() < connectionStability) {
+            newConnections.push(existingIdx);
+            // Remove from distances so we don't add it twice
+            const idx = distances.findIndex(d => d.index === existingIdx);
+            if (idx !== -1) {
+              distances.splice(idx, 1);
+            }
+          }
+        });
+        
+        // Then add new connections until we reach the desired total
+        while (newConnections.length < totalConnections && distances.length > 0) {
+          const next = distances.shift();
+          if (next) {
+            newConnections.push(next.index);
+          }
+        }
+        
+        p1.connections = newConnections;
+      });
+      
+      // Now draw all connections
+      particles.forEach((p1, i) => {
+        p1.connections.forEach(j => {
+          const p2 = particles[j];
+          
+          // Create gradient line
+          const gradient = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
+          const distance = getDistance(p1, p2);
+          const opacity = connectionOpacity * (1 - distance / connectionDistance);
+          
+          gradient.addColorStop(0, p1.color.replace(')', `, ${opacity})`).replace('rgb', 'rgba'));
+          gradient.addColorStop(1, p2.color.replace(')', `, ${opacity})`).replace('rgb', 'rgba'));
+          
+          ctx.beginPath();
+          ctx.strokeStyle = gradient;
+          ctx.lineWidth = connectionLineWidth;
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+          
+          // Check if we should create a new pulse
+          if (Math.random() < pulseProbability) {
+            const pulseSize = minPulseSize + Math.random() * (maxPulseSize - minPulseSize);
+            const midX = (p1.x + p2.x) / 2;
+            const midY = (p1.y + p2.y) / 2;
+            
+            // Add the pulse with TTL
+            p1.pulses.push({
+              partnerId: j,
+              ttl: pulseDuration,
+              size: pulseSize,
+              x: midX,
+              y: midY
+            });
+          }
+        });
+        
+        // Draw all active pulses
+        p1.pulses.forEach((pulse, idx) => {
+          const p2 = particles[pulse.partnerId];
+          
+          // Update pulse position if particles have moved
+          if (p1.connections.includes(pulse.partnerId)) {
+            pulse.x = (p1.x + p2.x) / 2;
+            pulse.y = (p1.y + p2.y) / 2;
+          }
+          
+          // Draw the pulse
+          ctx.beginPath();
+          ctx.arc(pulse.x, pulse.y, pulse.size, 0, Math.PI * 2);
+          ctx.fillStyle = p1.color.replace(')', `, ${pulseOpacity * (pulse.ttl / pulseDuration)})`).replace('rgb', 'rgba');
+          ctx.fill();
+          
+          // Reduce TTL
+          pulse.ttl--;
+        });
+        
+        // Remove expired pulses
+        p1.pulses = p1.pulses.filter(pulse => pulse.ttl > 0);
+      });
     };
     
     // Animation loop
