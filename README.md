@@ -91,7 +91,3 @@ This project is structured to incorporate Drizzle ORM in future updates. Drizzle
 - **Multiple Database Support** - Works with PostgreSQL, MySQL, and SQLite
 
 Once implemented, Drizzle will enable robust customer relationship management (CRM) capabilities, allowing for efficient storage and retrieval of data, interactions, and relationship tracking.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
