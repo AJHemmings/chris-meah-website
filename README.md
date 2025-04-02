@@ -1,7 +1,6 @@
 # 🚀 Next-Gen Express Web Application
 
 ![version](https://img.shields.io/badge/version-1.0.0-blue)
-![license](https://img.shields.io/badge/license-MIT-green)
 
 ## 🌟 Overview
 
