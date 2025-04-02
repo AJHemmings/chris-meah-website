@@ -19,8 +19,8 @@ This is a modern, high-performance web application for Chris Meah - built with E
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/yourusername/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/AJHemmings/chris-meah-website.git
+cd chris-meah-website
 npm install
 ```
 
